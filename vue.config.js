@@ -2,7 +2,7 @@
 module.exports = {
   // 选项...
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/production-sub-path/'
+    ? '/'
     : '/',
 
   // outputDir assetsDir indexPath 默认
