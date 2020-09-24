@@ -2,7 +2,7 @@
 module.exports = {
   // 选项...
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/'
+    ? './'
     : '/',
 
   // outputDir assetsDir indexPath 默认
@@ -27,19 +27,19 @@ module.exports = {
 
   devServer: {
     // 生产环境端口号
-    port: 9999,
-    proxy: {
-      '/': {
-        target: 'http://localhost:9998',
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/': '/'
-        }
-      },
-      '/foo': {
-        target: '<other_url>'
-      }
-    }
+    port: 9999
+    // proxy: {
+    //   '/': {
+    //     target: 'http://localhost:9998',
+    //     ws: true,
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/': '/'
+    //     }
+    //   },
+    //   '/foo': {
+    //     target: '<other_url>'
+    //   }
+    // }
   }
 }

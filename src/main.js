@@ -9,6 +9,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import moment from './utils/moment.js'
 import lodash from './utils/lodash.js'
+import fs from './utils/fs.js'
+// import got from './utils/got.js'
 import VueParticles from 'vue-particles'
 Vue.config.productionTip = false
 
@@ -18,6 +20,8 @@ Vue.use(iView)
 Vue.use(ElementUI)
 Vue.use(moment)
 Vue.use(lodash)
+Vue.use(fs)
+// Vue.use(got)
 
 Vue.prototype.$Message.config({
   top: 150,

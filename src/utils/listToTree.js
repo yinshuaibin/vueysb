@@ -2,12 +2,12 @@ export default function listToTree (list) {
   if (!list) {
     return null
   }
-  let temp = []
-  let tree = {}
-  for (let i in list) {
+  const temp = []
+  const tree = {}
+  for (const i in list) {
     temp[list[i].id] = list[i]
   }
-  for (let i in temp) {
+  for (const i in temp) {
     if (temp[i].parentId) {
       if (!temp[temp[i].parentId].children) {
         temp[temp[i].parentId].children = []

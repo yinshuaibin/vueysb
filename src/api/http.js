@@ -4,7 +4,7 @@ import axios from 'axios'
 // npm仓库管理的包,可通过npm install qs进行安装
 import qs from 'qs'
 // 引入请求的地址
-// import {baseUrl} from '@/utils/globalConfig.js'
+import { baseUrl } from '@/utils/globalConfig.js'
 // 引入消息提示
 import Message from 'view-design/src/components/message/index'
 // 引入全局store
@@ -19,7 +19,7 @@ Message.config({
 })
 // ajax统一请求设置
 var instance = axios.create({
-  // baseURL: '',
+  baseURL: baseUrl,
   // 序列化
   paramsSerializer: function (params) {
     return qs.stringify(params, {
