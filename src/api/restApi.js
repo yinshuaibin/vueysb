@@ -16,10 +16,10 @@ const restApi = {}
 export default restApi
 
 restApi.login = (param) => {
-  return post('/login', param)
+  return post('/login?username=' + param.username + '&password=' + param.password)
 }
 restApi.ttt = () => {
-  return get('/ttt')
+  return get('/open/redisTest')
 }
 restApi.getFile = (url) => {
   return getFile(url)

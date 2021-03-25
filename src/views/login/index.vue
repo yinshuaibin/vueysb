@@ -124,13 +124,14 @@ export default {
           restApi.login(this.loginUser).then(data => {
             console.log(data)
             this.loading = false
-            if (data.jnumber) {
+            if (data.code && data.code === '200') {
               this.$store.commit('setUser', data)
+              this.$router.push('/Home')
             } else {
-              this.errorMsg = data.msg
+              this.errorMsg = data
             }
           }).then(data => {
-            this.$router.push('/Home')
+
           })
         } else {
           return false

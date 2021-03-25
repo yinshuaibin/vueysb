@@ -2,7 +2,7 @@
 const env = process.env.NODE_ENV
 // const声明的是常亮,默认不可改变
 // 开发地址
-const devUrl = 'http://127.0.0.1:8090'
+const devUrl = 'http://127.0.0.1:9998'
 // 生产环境地址
 const prodUrl = 'https://www.yinshuaibin.xyz/yinshuaibin'
 // 备用地址

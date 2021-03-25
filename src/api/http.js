@@ -10,7 +10,7 @@ import Message from 'view-design/src/components/message/index'
 // 引入全局store
 import store from '@/store/index.js'
 // 引入路由,未登录或登录失效时跳转使用
-import router from '@/router/index.js'
+// import router from '@/router/index.js'
 
 // 设置提示
 Message.config({
@@ -50,6 +50,9 @@ instance.interceptors.request.use(
 )
 // 响应时拦截
 instance.interceptors.response.use(response => {
+  if (response.data && response.data.code === '401') {
+    Message.error('权限不足')
+  }
   // 返回响应时做一些处理
   return response
 }, error => {
@@ -68,20 +71,8 @@ instance.interceptors.response.use(response => {
     }
     const e = error.response.data
     if (e) {
-      if (e.code) {
-        Message.warning(e.desc)
-      } else {
-        if (e.message.indexOf('not login') > -1) {
-          if (messageFlag) {
-            Message.error('登录已过期, 请重新登录')
-            store.commit('clearUser')
-            router.push('/')
-          }
-          messageFlag = false
-          setTimeout(() => {
-            messageFlag = true
-          }, 8000)
-        }
+      if (e.code && e.code === '402') {
+        Message.error('重复操作')
       }
     }
     return Promise.reject(error)

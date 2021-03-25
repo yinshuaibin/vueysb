@@ -8,16 +8,14 @@ export default {
    */
   setUser (state, payload) {
     localStorage.setItem('user', JSON.stringify(payload))
-    state.token = payload.jnumber
-    localStorage.setItem('token', payload.jnumber)
-    console.log(state.token)
+    state.token = 'ysb' + payload.msg
+    localStorage.setItem('token', state.token)
   },
   clearUser (state, payload) {
     state.user = null
     state.token = null
     localStorage.removeItem('token')
     localStorage.removeItem('user')
-    sessionStorage.removeItem('checkface')
   },
   // 触发点击导航地址,将当前的页面换成对应的;
   menuSelectEvent (state, name) {
