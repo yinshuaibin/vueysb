@@ -57,6 +57,7 @@ instance.interceptors.response.use(response => {
   return response
 }, error => {
   try {
+    debugger
     // 当响应异常时做一些处理
     const status = error.response.status
     if (status === 504) {
@@ -71,7 +72,7 @@ instance.interceptors.response.use(response => {
     }
     const e = error.response.data
     if (e) {
-      if (e.code && e.code === '402') {
+      if (e.code && e.code === 402) {
         Message.error('重复操作')
       }
     }
