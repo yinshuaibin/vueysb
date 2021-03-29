@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import iView from 'view-design'
+import store from '@/store/index.js'
 const Home = () => import('../views/Home.vue')
 const login = () => import('../views/login/index.vue')
 
@@ -36,6 +38,25 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  iView.LoadingBar.start()
+  next()
+  if (to.path === '/') {
+    if (store.getters.getToken && store.getters.getUser) {
+      router.push('home')
+    }
+  }
+  if (!store.getters.getToken) {
+    router.push('/')
+  }
+})
+router.afterEach(() => {
+  iView.LoadingBar.finish()
+  window.scrollTo(0, 0)
 })
 
 export default router

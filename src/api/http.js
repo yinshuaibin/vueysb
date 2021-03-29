@@ -57,7 +57,6 @@ instance.interceptors.response.use(response => {
   return response
 }, error => {
   try {
-    debugger
     // 当响应异常时做一些处理
     const status = error.response.status
     if (status === 504) {
