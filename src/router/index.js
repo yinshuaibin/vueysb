@@ -51,7 +51,9 @@ router.beforeEach((to, from, next) => {
     }
   }
   if (!store.getters.getToken) {
-    router.push('/')
+    if (to.path !== '/') {
+      router.push('/')
+    }
   }
 })
 router.afterEach(() => {

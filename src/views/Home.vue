@@ -2,6 +2,7 @@
   <div class="home">
     <img @click="ttt()" alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Button @click="logout">退出tttttttttttttttttttttttt</Button>
   </div>
 </template>
 
@@ -20,6 +21,10 @@ export default {
       restApi.ttt().then(data => {
         console.log(data)
       })
+    },
+    logout () {
+      this.$store.commit('clearUser', null)
+      this.$router.push('/')
     }
   }
 }
