@@ -1,25 +1,29 @@
 <template>
-  <div class="home">
-    <img @click="ttt()" alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <Button @click="logout">退出tttttttttttttttttttttttt</Button>
+  <div style="margin-top:15px">
+    <Button type="primary" @click="ttt">测试重复操作</Button>
+    <Button style="float:right" type="primary" @click="logout">退出</Button>
+    <Row>
+      <Col>
+        <pic></pic>
+      </Col>
+    </Row>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import restApi from '@/api/restApi'
+import pic from '@/components/pic'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    pic
   },
   methods: {
     ttt () {
       restApi.ttt().then(data => {
-        console.log(data)
+        alert(data)
       })
     },
     logout () {

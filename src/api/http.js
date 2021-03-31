@@ -14,7 +14,7 @@ import store from '@/store/index.js'
 
 // 设置提示
 Message.config({
-  top: 550,
+  top: 250,
   duration: 5
 })
 // ajax统一请求设置

@@ -120,9 +120,9 @@ export default {
     login () {
       this.$refs.loginUser.validate(valid => {
         if (valid) {
+          this.deleteEdit()
           this.loading = true
           restApi.login(this.loginUser).then(data => {
-            console.log(data)
             this.loading = false
             if (data.code && data.code === '200') {
               this.$store.commit('setUser', data)
@@ -132,6 +132,9 @@ export default {
             }
           }).then(data => {
 
+          }).catch(e => {
+            this.loading = false
+            this.errorMsg = '服务器无响应'
           })
         } else {
           return false
