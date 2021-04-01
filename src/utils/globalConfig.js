@@ -8,7 +8,7 @@ const prodUrl = 'https://www.yinshuaibin.xyz/yinshuaibin'
 // 开发地址
 const devPicUrl = 'http://127.0.0.1:9998/image'
 // 生产环境地址
-const prodPicUrl = 'https://www.yinshuaibin.xyz/web'
+const prodPicUrl = 'https://www.yinshuaibin.xyz/pic'
 // 备用地址
 const backUpUrl = 'http://127.0.0.1:10086'
 export const baseUrl = env === 'development' ? devUrl : env === 'production' ? prodUrl : backUpUrl

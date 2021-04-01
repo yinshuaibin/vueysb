@@ -69,7 +69,7 @@
         </div>
     </Upload>
     <Modal title="" v-model="visible">
-        <img :src="'http://127.0.0.1:9998/image/' + imgName + ''" v-if="visible" style="object-fit: contain;width:100%">
+        <img :src="picPrifix + imgName" v-if="visible" style="object-fit: contain;width:100%">
     </Modal>
   </div>
 </template>
