@@ -126,7 +126,7 @@ export default {
             this.loading = false
             if (data.code && data.code === '200') {
               this.$store.commit('setUser', data)
-              this.$router.push('/Home')
+              this.$router.push('/home')
             } else {
               this.errorMsg = data
             }

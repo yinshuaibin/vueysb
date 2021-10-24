@@ -12,6 +12,8 @@ import lodash from './utils/lodash.js'
 import fs from './utils/fs.js'
 // import got from './utils/got.js'
 import VueParticles from 'vue-particles'
+import './assets/css/icon.css'
+import '@/style/base.css'
 Vue.config.productionTip = false
 
 Vue.use(VueParticles)

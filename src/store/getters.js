@@ -6,8 +6,10 @@ export default {
    * 如果均不存在则返回空;
    */
   getUser: (state, getters) => {
-    if (Object.keys(state.user).length) {
-      return state.user
+    if (state.user) {
+      if (Object.keys(state.user).length) {
+        return state.user
+      }
     }
     if (localStorage.getItem('user')) {
       state.user = JSON.parse(localStorage.getItem('user'))

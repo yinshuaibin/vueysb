@@ -1,0 +1,30 @@
+html {
+  background-color: #F8F8F8;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #dbdee3;
+}
+:hover::-webkit-scrollbar-thumb {
+  background: #c6cad0;
+}
+::-webkit-scrollbar-corner {
+  background: 0 0;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  transition: .3s background;
+    transition-property: background;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+    transition-delay: 0s
+}
+
+.el-dialog__body {
+  padding: 0px 20px;
+  color: #606266;
+  font-size: 14px;
+  word-break: break-all;
+}
