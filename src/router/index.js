@@ -4,8 +4,8 @@ import iView from 'view-design'
 import store from '@/store/index.js'
 const Home = () => import('../views/Home.vue')
 const Main = () => import('../views/Main.vue')
-const title1 = () => import('../views/title1.vue')
-const title2 = () => import('../views/title2.vue')
+const CosmeticsStock = () => import('../views/CosmeticsStock.vue')
+const CosmeticsType = () => import('../views/CosmeticsType.vue')
 const login = () => import('../views/login/index.vue')
 
 Vue.use(VueRouter)
@@ -30,14 +30,14 @@ const routes = [
         meta: { title: '主页' }
       },
       {
-        path: 'title1',
-        component: title1,
-        meta: { title: 'title1' }
+        path: 'cosmeticsStock',
+        component: CosmeticsStock,
+        meta: { title: '进货' }
       },
       {
-        path: 'title2',
-        component: title2,
-        meta: { title: 'title2' }
+        path: 'cosmeticsType',
+        component: CosmeticsType,
+        meta: { title: '货品类型' }
       }
     ]
   },

@@ -163,7 +163,7 @@ export default {
     },
     logout () {
       this.$store.commit('clearUser', null)
-      this.$router.push('/')
+      this.$router.push('/login')
     },
     search1 () {
       if (this.sendMessage1) {

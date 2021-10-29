@@ -27,3 +27,18 @@ restApi.getAllPic = () => {
 restApi.delPic = (param) => {
   return get('/ysb/delPic', { fileName: param })
 }
+restApi.findAllSave = (param) => {
+  return post('/ysb/findAllSave', param)
+}
+restApi.findAllCosmeticsStock = (param) => {
+  return post('/ysb/findAllCosmeticsStock', param)
+}
+restApi.findAllCosmeticsType = (param) => {
+  return post('/ysb/findAllCosmeticsType', param)
+}
+restApi.saveCosmeticsType = (param) => {
+  return post('/ysb/saveCosmeticsType', param)
+}
+restApi.deleteType = (param) => {
+  return get('/ysb/deleteType', { id: param })
+}

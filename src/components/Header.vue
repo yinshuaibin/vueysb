@@ -80,12 +80,12 @@ export default {
           title: '测试标题',
           subs: [
             {
-              index: 'title1',
-              title: '测试页面1'
+              index: 'cosmeticsStock',
+              title: '进货'
             },
             {
-              index: 'title2',
-              title: '测试页面2'
+              index: 'cosmeticsType',
+              title: '货品类型'
             }
           ]
         },
