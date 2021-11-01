@@ -32,16 +32,16 @@
     <div class="crumbs">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>
-          <i class="iconfont icon-zhipinku"></i> 进货查询
+          <i class="iconfont icon-zhipinku"></i> 化妆品类别
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="container">
       <div class="handle-box" style="margin-bottom:10px">
-        <el-button type="primary" icon="el-icon-plus" style="float:right;margin-bottom:10px" width="30%" @click="addUModal">添加化妆品类别
+        <el-button type="primary" icon="el-icon-plus" style="float:right;margin-bottom:10px" width="30%" @click="addUModal">添加
         </el-button>
         <span>
-          名称 :  <el-input :maxlength="50" style="width:150px" v-model.trim="query.name"></el-input>
+          化妆品名称 :  <el-input :maxlength="50" style="width:20%" v-model.trim="query.name"></el-input>
         </span>
         <!-- <span>
           开始日期 : <el-date-picker :editable="false" v-model="query.startDate" type="date" value-format="yyyy-MM-dd"
@@ -57,9 +57,9 @@
         </el-button>
       </div>
       <el-table height="660" :data="resultList" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-        <el-table-column prop="createTime" label="添加时间" >
+        <el-table-column prop="name" label="化妆品名称" >
         </el-table-column>
-        <el-table-column prop="name" label="名称" >
+        <el-table-column prop="createTime" label="添加时间" >
         </el-table-column>
          <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
@@ -83,7 +83,7 @@
       </div>
     </div>
 
-      <el-dialog :title="update ? '修改化妆品' : '添加化妆品'" :visible.sync="dialogVisible" width="35%">
+    <el-dialog :title="update ? '修改化妆品' : '添加化妆品'" :visible.sync="dialogVisible" width="35%">
       <el-form :rules="rules" ref="form" :model="form" label-width="120px">
         <el-form-item prop="name" label="化妆品名称">
           <el-input :maxlength="50" v-model.trim="form.name"></el-input>

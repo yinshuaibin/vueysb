@@ -5,6 +5,7 @@ import store from '@/store/index.js'
 const Home = () => import('../views/Home.vue')
 const Main = () => import('../views/Main.vue')
 const CosmeticsStock = () => import('../views/CosmeticsStock.vue')
+const CosmeticsRedeem = () => import('../views/CosmeticsRedeem.vue')
 const CosmeticsType = () => import('../views/CosmeticsType.vue')
 const login = () => import('../views/login/index.vue')
 
@@ -35,9 +36,14 @@ const routes = [
         meta: { title: '进货' }
       },
       {
+        path: 'cosmeticsRedeem',
+        component: CosmeticsRedeem,
+        meta: { title: '兑奖' }
+      },
+      {
         path: 'cosmeticsType',
         component: CosmeticsType,
-        meta: { title: '货品类型' }
+        meta: { title: '化妆品类别' }
       }
     ]
   },

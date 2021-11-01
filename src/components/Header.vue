@@ -84,8 +84,12 @@ export default {
               title: '进货'
             },
             {
+              index: 'cosmeticsRedeem',
+              title: '兑奖'
+            },
+            {
               index: 'cosmeticsType',
-              title: '货品类型'
+              title: '化妆品类别'
             }
           ]
         },
