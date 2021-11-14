@@ -42,3 +42,9 @@ restApi.saveCosmeticsType = (param) => {
 restApi.deleteType = (param) => {
   return get('/ysb/deleteType', { id: param })
 }
+restApi.saveCosmeticsStock = (param) => {
+  return post('/ysb/saveCosmeticsStock', param)
+}
+restApi.deleteCosmeticsStock = (param) => {
+  return get('/ysb/deleteCosmeticsStock', { id: param })
+}

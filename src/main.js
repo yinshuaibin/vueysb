@@ -12,6 +12,7 @@ import lodash from './utils/lodash.js'
 import fs from './utils/fs.js'
 // import got from './utils/got.js'
 import VueParticles from 'vue-particles'
+import XLSX from 'xlsx'
 import './assets/css/icon.css'
 import '@/style/base.css'
 Vue.config.productionTip = false
@@ -25,6 +26,7 @@ Vue.use(lodash)
 Vue.use(fs)
 // Vue.use(got)
 
+Vue.prototype.$XLSX = XLSX
 Vue.prototype.$Message.config({
   top: 150,
   duration: 4

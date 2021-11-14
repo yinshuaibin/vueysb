@@ -11,7 +11,8 @@
   .handle-box span {
     margin-left: 15px
   }
-      .im_ul {
+
+  .im_ul {
     width: 100%;
     height: 60px;
   }
@@ -23,9 +24,11 @@
     float: left;
     display: block;
   }
-/**
+
+  /**
   出库单查询
  */
+
 </style>
 <template>
   <div>
@@ -38,10 +41,11 @@
     </div>
     <div class="container">
       <div class="handle-box" style="margin-bottom:10px">
-        <el-button type="primary" icon="el-icon-plus" style="float:right;margin-bottom:10px" width="30%" @click="addUModal">添加
+        <el-button type="primary" icon="el-icon-plus" style="float:right;margin-bottom:10px" width="30%"
+          @click="addUModal">添加
         </el-button>
         <span>
-          化妆品名称 :  <el-input :maxlength="50" style="width:20%" v-model.trim="query.name"></el-input>
+          化妆品名称 : <el-input :maxlength="50" style="width:20%" v-model.trim="query.name"></el-input>
         </span>
         <!-- <span>
           开始日期 : <el-date-picker :editable="false" v-model="query.startDate" type="date" value-format="yyyy-MM-dd"
@@ -56,26 +60,19 @@
         <el-button style="margin-left:15px" width="30%" type="primary" icon="el-icon-search" @click="handleSearch">搜索
         </el-button>
       </div>
-      <el-table height="660" :data="resultList" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-        <el-table-column prop="name" label="化妆品名称" >
+      <el-table height="660" :data="resultList" border class="table" ref="multipleTable"
+        header-cell-class-name="table-header">
+        <el-table-column prop="name" label="化妆品名称">
         </el-table-column>
-        <el-table-column prop="createTime" label="添加时间" >
+        <el-table-column prop="createTime" label="添加时间">
         </el-table-column>
-         <el-table-column label="操作" width="180" align="center">
-                    <template slot-scope="scope">
-                        <el-button
-                            type="text"
-                            icon="el-icon-edit"
-                            @click="handleEdit(scope.$index, scope.row)"
-                        >编辑</el-button>
-                        <el-button
-                            type="text"
-                            icon="el-icon-delete"
-                            class="red"
-                            @click="handleDelete(scope.$index, scope.row)"
-                        >删除</el-button>
-                    </template>
-                </el-table-column>
+        <el-table-column label="操作" width="180" align="center">
+          <template slot-scope="scope">
+            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="pagination">
         <el-pagination background layout="total, prev, pager, next" :current-page.sync="pageNum" :page-size="pageSize"
@@ -83,16 +80,17 @@
       </div>
     </div>
 
-    <el-dialog :title="update ? '修改化妆品' : '添加化妆品'" :visible.sync="dialogVisible" width="35%">
+    <el-dialog :show-close='false' :close-on-press-escape='false' :close-on-click-modal='false'
+      :title="update ? '修改化妆品' : '添加化妆品'" :visible.sync="dialogVisible" width="35%">
       <el-form :rules="rules" ref="form" :model="form" label-width="120px">
         <el-form-item prop="name" label="化妆品名称">
           <el-input :maxlength="50" v-model.trim="form.name"></el-input>
         </el-form-item>
       </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="onSubmit"> 确 定 </el-button>
-          <el-button @click="handleClose"> 取 消 </el-button>
-        </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="onSubmit"> 确 定 </el-button>
+        <el-button @click="handleClose"> 取 消 </el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -146,7 +144,8 @@ export default {
         },
         {
           validator: validateName
-        }]
+        }
+        ]
       }
     }
   },
@@ -154,6 +153,9 @@ export default {
   computed: {},
   methods: {
     addUModal () {
+      if (!this.update) {
+        Object.keys(this.form).forEach(key => (this.form[key] = ''))
+      }
       this.dialogVisible = true
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
@@ -202,8 +204,7 @@ export default {
             })
           }
         })
-      }).catch(() => {
-      })
+      }).catch(() => {})
     },
     findAllCosmeticsType (pageNum, pageSize) {
       if (pageNum === 1) {
