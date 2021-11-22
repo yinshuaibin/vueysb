@@ -37,7 +37,7 @@
     <div class="container">
       <div class="handle-box" style="margin-bottom:10px">
         <span>
-          类型 : <el-select v-model="query.stockType" placeholder="请选择类型" class="handle-select mr10">
+          化妆品名称 : <el-select v-model="query.stockType" placeholder="请选择化妆品名称" class="handle-select mr10" filterable>
             <el-option v-for="(value, key, index) in type" :key="index" :label="value" :value="key">
             </el-option>
           </el-select>
@@ -62,7 +62,7 @@
         header-cell-class-name="table-header">
         <!-- <el-table-column prop="id" label="id">
         </el-table-column> -->
-        <el-table-column label="名称">
+        <el-table-column label="化妆品名称">
           <template slot-scope="scope">
             <el-tag type="success">{{type[scope.row.stockType]}}</el-tag>
           </template>
@@ -98,8 +98,8 @@
     <el-dialog :show-close='false' :close-on-press-escape='false' :close-on-click-modal='false'
       :title="update ? '修改进货信息' : '添加进货信息'" :visible.sync="dialogVisible" width="25%">
       <el-form :rules="rules" ref="form" :model="form" label-width="120px">
-        <el-form-item prop="stockType" label="进货信息名称">
-          <el-select v-model="form.stockType" placeholder="请选择类型" class="handle-select mr10">
+        <el-form-item prop="stockType" label="化妆品名称">
+          <el-select v-model="form.stockType" placeholder="请选择化妆品类型" class="handle-select mr10" filterable>
             <el-option v-for="(value, key, index) in type" :key="index" :label="value" :value="key">
             </el-option>
           </el-select>
@@ -160,7 +160,7 @@ export default {
       rules: {
         stockType: [{
           required: true,
-          message: '进货信息名不能为空',
+          message: '化妆品名不能为空',
           trigger: 'blur'
         }],
         stockClient: [{

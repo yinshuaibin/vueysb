@@ -39,7 +39,7 @@
     <div class="container">
       <div class="handle-box" style="margin-bottom:10px">
         <span>
-          化妆品类型 : <el-select v-model="query.redeemType" placeholder="请选择化妆品类型" class="handle-select mr10">
+          化妆品名称 : <el-select v-model="query.redeemType" placeholder="请选择化妆品名称" class="handle-select mr10" filterable>
             <el-option v-for="(value, key, index) in type" :key="index" :label="value" :value="key">
             </el-option>
           </el-select>
@@ -56,7 +56,7 @@
         </span>
         <el-button style="margin-left:15px" width="30%" type="primary" icon="el-icon-search" @click="handleSearch">搜索
         </el-button>
-        <el-button type="primary" icon="el-icon-plus" style="float:right;margin-bottom:10px" width="30%" @click="addUModal">添加
+        <el-button type="primary" icon="el-icon-plus" style="float:right;margin-bottom:10px" width="30%" @click="addUModal">新增
         </el-button>
       </div>
       <el-table height="660" :data="resultList" border class="table" ref="multipleTable" header-cell-class-name="table-header">
@@ -69,29 +69,61 @@
         </el-table-column>
         <el-table-column prop="redeemClient" label="兑奖客户" >
         </el-table-column>
-        <el-table-column prop="createTime" label="添加时间" >
+        <el-table-column prop="createTime" label="兑奖时间" >
         </el-table-column>
         <el-table-column prop="redeemNumber" label="兑奖数量" >
         </el-table-column>
         <el-table-column prop="remark" label="备注" >
         </el-table-column>
-        <!-- <el-table-column label="确认方式">
+        <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
-             <span>{{scope.row.successStatus == 1 ? 'RFID确认' : scope.row.successStatus === 0 ? '手动确认' : '未确认'}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="#" width="120" align="center">
-          <template slot-scope="scope">
-            <el-button type="text" @click="details(scope.row)">详情
+            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除
             </el-button>
           </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
       <div class="pagination">
+        <el-button :loading="exportLoading" v-show="resultList.length > 0" style="float: left" width="30%" type="primary" icon="el-icon-download"
+          @click="exportResult(0)">导出当页数据
+        </el-button>
+        <el-button  :loading="exportLoading" v-show="resultList.length > 0" style="float: left" width="30%" type="primary" icon="el-icon-download"
+          @click="exportResult(1)">导出查询结果
+        </el-button>
         <el-pagination background layout="total, prev, pager, next" :current-page.sync="pageNum" :page-size="pageSize"
           :total="totalNum" @current-change="handleCurrentChange"></el-pagination>
       </div>
     </div>
+
+    <el-dialog :show-close='false' :close-on-press-escape='false' :close-on-click-modal='false'
+    :title="update ? '修改兑奖信息' : '新增兑奖信息'" :visible.sync="dialogVisible" width="25%">
+      <el-form :rules="rules" ref="form" :model="form" label-width="120px">
+        <el-form-item prop="redeemType" label="化妆品名称">
+          <el-select v-model="form.redeemType" placeholder="请选择化妆品类型" class="handle-select mr10" filterable>
+            <el-option v-for="(value, key, index) in type" :key="index" :label="value" :value="key">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="redeemClient" label="兑奖用户">
+          <el-input :maxlength="50" v-model.trim="form.redeemClient"></el-input>
+        </el-form-item>
+        <el-form-item prop="redeemNumber" label="兑奖数量">
+          <el-input-number v-model="form.redeemNumber" :min="1" :max="10000" v-model.trim="form.redeemNumber"></el-input-number>
+        </el-form-item>
+        <el-form-item prop="redeemTime" label="兑奖时间">
+          <el-date-picker :editable="false" v-model="form.redeemTime" type="date" value-format="yyyy-MM-dd"
+            placeholder="请选择兑奖时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item prop="remark" label="备注">
+          <el-input :maxlength="50" v-model.trim="form.remark"></el-input>
+        </el-form-item>
+      </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="onSubmit"> 确 定 </el-button>
+          <el-button @click="handleClose"> 取 消 </el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -106,9 +138,9 @@ export default {
           name: value
         }).then(data => {
           if (data.total && data.total > 0) {
-            /* if (!this.update || (this.update && value !== this.updateTemp.name)) {
+            if (!this.update || (this.update && value !== this.updateTemp.name)) {
               callback(new Error('化妆品名称不允许重复'))
-            } */
+            }
           }
           callback()
         })
@@ -119,7 +151,7 @@ export default {
       pageNum: 1,
       query: {
         // 化妆品类型
-        stockType: '',
+        redeemType: '',
         // 开始日期
         startDate: '',
         // 结束日期
@@ -128,17 +160,29 @@ export default {
       requestQuery: {},
       resultList: [],
       totalNum: 0,
+      exportLoading: false,
       // 仓库
       wareHouse: {
       },
       // 类型
       type: {},
-      // 出库单详情
-      bom: {},
+      // 新增
+      form: {
+        redeemType: '',
+        redeemClient: '',
+        redeemNumber: '',
+        redeemTime: '',
+        remark: ''
+      },
       rules: {
-        name: [{
+        redeemType: [{
           required: true,
           message: '化妆品名不能为空',
+          trigger: 'blur'
+        }],
+        redeemClient: [{
+          required: true,
+          message: '兑奖用户不能为空',
           trigger: 'blur'
         },
         {
@@ -149,9 +193,20 @@ export default {
         },
         {
           validator: validateName
+        }],
+        redeemNumber: [{
+          required: true,
+          message: '兑奖数量不能为空',
+          trigger: 'blur'
+        }],
+        redeemTime: [{
+          required: true,
+          message: '兑奖时间不能为空',
+          trigger: 'blur'
         }]
       },
       dialogVisible: false,
+      update: false,
       materials: [],
       materialsList: [],
       dialogVisiblePageNum: 1,
@@ -161,18 +216,18 @@ export default {
   watch: {},
   computed: {},
   methods: {
-    findAllCosmeticsStock (pageNum, pageSize) {
+    findAllCosmeticsRedeem (pageNum, pageSize) {
       if (pageNum === 1) {
         this.resultList = []
         this.totalNum = 0
       }
-      if (this.requestQuery.stockType === '0') {
-        this.requestQuery.stockType = ''
+      if (this.requestQuery.redeemType === '0') {
+        this.requestQuery.redeemType = ''
       }
       this.requestQuery.pageNum = pageNum
       this.requestQuery.pageSize = pageSize
       // 4代表已出库
-      restApi.findAllCosmeticsStock(this.requestQuery).then(data => {
+      restApi.findAllCosmeticsRedeem(this.requestQuery).then(data => {
         if (data.total && data.total > 0) {
           this.resultList = data.list
           this.totalNum = data.total
@@ -186,38 +241,68 @@ export default {
       })
     },
     addUModal () {
+      if (!this.update) {
+        Object.keys(this.form).forEach(key => (this.form[key] = ''))
+      }
       this.dialogVisible = true
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
     },
-    handleCurrentChange (pageNum) {
-      this.findAllCosmeticsStock(pageNum, this.pageSize)
+    onSubmit () {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          restApi.saveOrUpdateCosmeticsRedeem(this.form).then(data => {
+            this.$notify({
+              title: this.update ? '修改成功' : '添加成功',
+              message: this.update ? '修改成功' : '添加成功',
+              type: 'success'
+            })
+            this.dialogVisible = false
+            this.findAllCosmeticsRedeem(this.pageNum, this.pageSize)
+          })
+        }
+      })
     },
-    dialogVisibleHandleCurrentChange (pageNum) {
-      const start = (pageNum - 1) * this.dialogVisiblePageSize
-      const end = pageNum * this.dialogVisiblePageSize
-      this.materials = this.materialsList.slice(start, end)
+    handleEdit (index, row) {
+      this.update = true
+      this.form = this.$_.cloneDeep(row)
+      this.updateTemp = this.$_.cloneDeep(row)
+      this.addUModal()
+    },
+    handleDelete (index, row) {
+      this.$confirm('您确定要删除吗, 删除后不可恢复', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        restApi.deleteCosmeticsRedeem(row.id).then(data => {
+          let pageNum = this.pageNum
+          if (index === 0 && pageNum !== 1) {
+            pageNum = pageNum - 1
+          } else {
+            pageNum = 1
+          }
+          this.findAllCosmeticsRedeem(pageNum, this.pageSize)
+          this.$notify({
+            title: '删除成功',
+            message: '删除成功, 删除兑奖信息成功',
+            type: 'success'
+          })
+        })
+      }).catch(() => {})
+    },
+    handleCurrentChange (pageNum) {
+      this.findAllCosmeticsRedeem(pageNum, this.pageSize)
     },
     handleClose () {
-      this.bom = {}
+      this.update = false
       this.dialogVisible = false
     },
     handleSearch () {
       Object.keys(this.requestQuery).forEach(key => (this.requestQuery[key] = ''))
       this.requestQuery = this.$_.cloneDeep(this.query)
-      this.findAllCosmeticsStock(1, this.pageSize)
-    },
-    details (row) {
-      this.bom = this.$_.cloneDeep(row)
-      restApi.findMaterialByBomId(row.id).then((data) => {
-        this.dialogVisible = true
-        this.materialsList = data
-        this.materials = this.materialsList.slice(0, this.dialogVisiblePageSize)
-      })
-    },
-    exportBom () {
-      this.dialogVisible = false
+      this.findAllCosmeticsRedeem(1, this.pageSize)
     },
     init () {
       const p2 = restApi.findAllCosmeticsType({
@@ -233,7 +318,7 @@ export default {
         console.error(err)
       })
       Promise.all([p2]).then(data => {
-        this.findAllCosmeticsStock(1, this.pageSize)
+        this.findAllCosmeticsRedeem(1, this.pageSize)
       })
     }
   },

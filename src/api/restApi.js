@@ -33,6 +33,9 @@ restApi.findAllSave = (param) => {
 restApi.findAllCosmeticsStock = (param) => {
   return post('/ysb/findAllCosmeticsStock', param)
 }
+restApi.findAllCosmeticsRedeem = (param) => {
+  return post('/ysb/findAllCosmeticsRedeem', param)
+}
 restApi.findAllCosmeticsType = (param) => {
   return post('/ysb/findAllCosmeticsType', param)
 }
@@ -47,4 +50,10 @@ restApi.saveCosmeticsStock = (param) => {
 }
 restApi.deleteCosmeticsStock = (param) => {
   return get('/ysb/deleteCosmeticsStock', { id: param })
+}
+restApi.saveOrUpdateCosmeticsRedeem = (param) => {
+  return post('/ysb/saveOrUpdateCosmeticsRedeem', param)
+}
+restApi.deleteCosmeticsRedeem = (param) => {
+  return get('/ysb/deleteCosmeticsRedeem', { id: param })
 }
