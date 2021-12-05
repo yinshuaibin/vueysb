@@ -128,6 +128,7 @@
 </template>
 <script>
 import restApi from '@/api/restApi'
+import { exportJsonToSheet } from '@/utils/execl'
 export default {
   data () {
     const validateName = (rule, value, callback) => {
@@ -303,6 +304,64 @@ export default {
       Object.keys(this.requestQuery).forEach(key => (this.requestQuery[key] = ''))
       this.requestQuery = this.$_.cloneDeep(this.query)
       this.findAllCosmeticsRedeem(1, this.pageSize)
+    },
+    exportResult (type) {
+      this.exportLoading = true
+      let name = '化妆品兑奖明细.xlsx'
+      if (type) {
+        if (this.totalNum > 10000) {
+          this.$notify({
+            title: '导出失败',
+            message: '禁止一次性导出一万条以上数据',
+            type: 'error'
+          })
+        } else {
+          if (this.requestQuery.redeemType === '0') {
+            this.requestQuery.redeemType = ''
+          }
+          this.requestQuery.pageNum = 1
+          this.requestQuery.pageSize = this.totalNum
+          restApi.findAllCosmeticsStock(this.requestQuery).then(data => {
+            let temp = ''
+            if (this.requestQuery.startDate) {
+              temp += this.requestQuery.startDate
+            }
+            if (this.requestQuery.endDate) {
+              if (temp) {
+                temp += '-'
+              }
+              temp += this.requestQuery.endDate
+            }
+            if (this.requestQuery.redeemType) {
+              if (temp) {
+                temp += '-'
+              }
+              temp += this.type[this.requestQuery.redeemType] + '-' + name
+              name = temp
+            }
+            this.export1(data.list, name)
+          })
+        }
+      } else {
+        this.export1(this.resultList, name)
+      }
+    },
+    export1 (result, name) {
+      const temp = this.$_.cloneDeep(result)
+      temp.map(item => {
+        item.redeemType = this.type[item.redeemType]
+      })
+      const header = {
+        redeemType: '化妆品名称',
+        redeemClient: '兑奖客户',
+        redeemNumber: '兑奖数量',
+        redeemTime: '兑奖时间',
+        remark: '备注'
+      }
+      console.log(this.requestQuery)
+      exportJsonToSheet(temp, header, '化妆品兑奖明细',
+        name)
+      this.exportLoading = false
     },
     init () {
       const p2 = restApi.findAllCosmeticsType({
