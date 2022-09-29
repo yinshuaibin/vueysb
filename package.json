@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
-    "d3": "^5.16.0",
+    "d3": "^7.6.1",
     "element-ui": "^2.13.2",
     "fs": "0.0.1-security",
     "lodash": "^4.17.15",
